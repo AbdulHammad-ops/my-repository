@@ -7,6 +7,8 @@ import { Search, User, Heart, ShoppingCart, ChevronLeft, ChevronRight, ChevronDo
 import { SignInButton, SignedIn, SignedOut, UserButton, useUser } from '@clerk/nextjs'
 import { useRouter } from 'next/navigation';
 
+export const dynamic = 'force-dynamic'
+
 export default function Home() {
   const router = useRouter();
   const [currentSlide, setCurrentSlide] = useState(0);
