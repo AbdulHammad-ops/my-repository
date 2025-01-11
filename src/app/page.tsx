@@ -140,7 +140,7 @@ export default function Home() {
                 </Link>
               </li>
               <li className="text-md md:text-base">
-                <Link href="/editor" onClick={handleEditorNavigation} className="text-white">
+                <Link href="#" onClick={handleEditorNavigation} className="text-white">
                   Editor
                 </Link></li>
 
@@ -234,7 +234,7 @@ export default function Home() {
                 </Link>
               </li>
               <li className="text-md md:text-base">
-                <Link href="/editor" onClick={handleEditorNavigation} className=" block">
+                <Link href="#" onClick={handleEditorNavigation} className=" block">
                   Editor
                 </Link>
               </li>
