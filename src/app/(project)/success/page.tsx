@@ -1,21 +1,29 @@
-import React from 'react'
+"use client";
+
+import React, { useEffect, useState } from 'react'
 import { CheckCircle2 } from 'lucide-react'
 import Link from 'next/link'
-import { redirect } from 'next/navigation'
+import { redirect, useSearchParams } from 'next/navigation'
 import { getStripeSession } from '@/lib/stripe'
+import Stripe from 'stripe';
 
-export default async function Success(props: {
-    params: Promise<{ slug: string }>
-    searchParams: Promise<{ [key: string]: string | string[] | undefined }>
-}) {
-    const searchParams = await props.searchParams;
-    const { session_id } = searchParams;
-
+export default function Success() {
+    const queryParams = useSearchParams();
+    const session_id = queryParams.get('session_id');
+    const [session, setSession] = useState<Stripe.Response<Stripe.Checkout.Session> | null>(null);
     if (!session_id) {
         redirect('/')
     }
 
-    const session = await getStripeSession(session_id as string)
+    useEffect(() => {
+        const fetchSession = async () => {
+            const session = await getStripeSession(session_id as string)
+            if (session) {
+                setSession(session)
+            }
+        }
+        fetchSession()
+    }, [session_id])
 
     if (!session) {
         redirect('/')
