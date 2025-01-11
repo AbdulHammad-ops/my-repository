@@ -12,7 +12,7 @@ const config = {
 
 // Replace with your actual API key or retrieve it from a secure location.
 // For example, you might do: process.env.NEXT_PUBLIC_OPENAI_API_KEY
-const openaiApiKey = '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';
+const openaiApiKey = process.env.NEXT_PUBLIC_OPENAI_API_KEY;
 
 // Mock image URL
 const MOCK_IMAGE_URL = 'https://i.ibb.co/FwwmPNL/Category-Icon-Vintage.png';
