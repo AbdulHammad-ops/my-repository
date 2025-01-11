@@ -133,7 +133,12 @@ export default function Home() {
                   How It Works
                 </Link></li>
               <li className="text-md md:text-base">
-                <Link href="#" onClick={handleEditorNavigation} className="text-white">
+                <Link href="/pricing" className=" block">
+                  Pricing
+                </Link>
+              </li>
+              <li className="text-md md:text-base">
+                <Link href="/editor" onClick={handleEditorNavigation} className="text-white">
                   Editor
                 </Link></li>
 
@@ -219,11 +224,18 @@ export default function Home() {
               <li className="text-md md:text-base">
                 <Link href="/how-it-works" className=" block">
                   How It Works
-                </Link></li>
+                </Link>
+              </li>
               <li className="text-md md:text-base">
-                <Link href="#" onClick={handleEditorNavigation} className=" block">
+                <Link href="/pricing" className=" block">
+                  Pricing
+                </Link>
+              </li>
+              <li className="text-md md:text-base">
+                <Link href="/editor" onClick={handleEditorNavigation} className=" block">
                   Editor
-                </Link></li>
+                </Link>
+              </li>
               <SignedOut>
                 <SignInButton />
               </SignedOut>
