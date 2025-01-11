@@ -4,16 +4,18 @@ import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { getStripeSession } from '@/lib/stripe'
 
-async function Success({
-    searchParams,
-}: {
-    searchParams: { session_id: string }
+export default async function Success(props: {
+    params: Promise<{ slug: string }>
+    searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }) {
-    if (!searchParams.session_id) {
+    const searchParams = await props.searchParams;
+    const { session_id } = searchParams;
+
+    if (!session_id) {
         redirect('/')
     }
 
-    const session = await getStripeSession(searchParams.session_id)
+    const session = await getStripeSession(session_id as string)
 
     if (!session) {
         redirect('/')
@@ -44,4 +46,3 @@ async function Success({
     )
 }
 
-export default Success
