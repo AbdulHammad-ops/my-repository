@@ -1,5 +1,5 @@
 import CreativeEditorSDK, { DesignBlockType } from '@cesdk/cesdk-js';
-// import BackgroundRemovalPlugin from '@imgly/plugin-background-removal-web';
+import BackgroundRemovalPlugin from '@imgly/plugin-background-removal-web';
 import VectorizerPlugin from '@imgly/plugin-vectorizer-web';
 
 import { useEffect, useRef, useState } from 'react';
@@ -37,17 +37,17 @@ export default function CreativeEditorSDKComponent() {
                 await Promise.all([
                     instance.addDefaultAssetSources(),
                     instance.addDemoAssetSources({ sceneMode: 'Design' }),
-                    // instance.addPlugin(BackgroundRemovalPlugin({
-                    //     ui:{
-                    //         locations:'canvasMenu'
-                    //     },
-                    //     provider:{
-                    //         type:'@imgly/background-removal',
-                    //         configuration:{
-                    //             device:'cpu'
-                    //         }
-                    //     }
-                    // })),
+                    instance.addPlugin(BackgroundRemovalPlugin({
+                        ui:{
+                            locations:'canvasMenu'
+                        },
+                        provider:{
+                            type:'@imgly/background-removal',
+                            configuration:{
+                                device:'cpu'
+                            }
+                        }
+                    })),
                     instance.addPlugin(VectorizerPlugin({
                         ui:{
                             locations:'canvasMenu'
