@@ -1,6 +1,6 @@
 import CreativeEditorSDK, { DesignBlockType } from '@cesdk/cesdk-js';
 // import BackgroundRemovalPlugin from '@imgly/plugin-background-removal-web';
-// import VectorizerPlugin from '@imgly/plugin-vectorizer-web';
+import VectorizerPlugin from '@imgly/plugin-vectorizer-web';
 
 import { useEffect, useRef, useState } from 'react';
 
@@ -17,10 +17,7 @@ export default function CreativeEditorSDKComponent() {
     const [cesdk, setCesdk] = useState<CreativeEditorSDK | null>(null);
     const [prompt, setPrompt] = useState('');
     const [loading, setLoading] = useState(false);
-    const [isDragging, setIsDragging] = useState(false);
-    const [position, setPosition] = useState({ x: window.innerWidth - 300, y: window.innerHeight - 150 });
     const [isVisible, setIsVisible] = useState(true);
-    const dragRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         if (!cesdkContainerRef.current) return;
@@ -39,17 +36,23 @@ export default function CreativeEditorSDKComponent() {
                 // Load assets first
                 await Promise.all([
                     instance.addDefaultAssetSources(),
-                    // instance.addDemoAssetSources({ sceneMode: 'Design' }),
+                    instance.addDemoAssetSources({ sceneMode: 'Design' }),
                     // instance.addPlugin(BackgroundRemovalPlugin({
                     //     ui:{
                     //         locations:'canvasMenu'
+                    //     },
+                    //     provider:{
+                    //         type:'@imgly/background-removal',
+                    //         configuration:{
+                    //             device:'cpu'
+                    //         }
                     //     }
                     // })),
-                    // instance.addPlugin(VectorizerPlugin({
-                    //     ui:{
-                    //         locations:'canvasMenu'
-                    //     }
-                    // })),
+                    instance.addPlugin(VectorizerPlugin({
+                        ui:{
+                            locations:'canvasMenu'
+                        }
+                    })),
                 ]); 
 
                 await instance.createDesignScene();
@@ -108,90 +111,55 @@ export default function CreativeEditorSDKComponent() {
         }
     };
 
-    // Add drag handlers
-    const handleMouseDown = (e: React.MouseEvent) => {
-        setIsDragging(true);
-        const startX = e.pageX - position.x;
-        const startY = e.pageY - position.y;
-
-        const handleMouseMove = (e: MouseEvent) => {
-            setPosition({
-                x: e.pageX - startX,
-                y: e.pageY - startY
-            });
-        };
-
-        const handleMouseUp = () => {
-            setIsDragging(false);
-            document.removeEventListener('mousemove', handleMouseMove);
-            document.removeEventListener('mouseup', handleMouseUp);
-        };
-
-        document.addEventListener('mousemove', handleMouseMove);
-        document.addEventListener('mouseup', handleMouseUp);
-    };
-
     return (
-        <div style={{ width: '100vw', height: '100vh', position: 'relative' }}>
+        <div className="w-screen h-screen relative">
             {isVisible ? (
-                <div
-                    ref={dragRef}
-                    style={{
-                        position: 'fixed',
-                        bottom: window.innerHeight - position.y,
-                        right: window.innerWidth - position.x,
-                        zIndex: 999,
-                        background: 'rgba(255, 255, 255, 0.9)',
-                        padding: '1rem',
-                        borderRadius: '8px',
-                        cursor: isDragging ? 'grabbing' : 'grab',
-                        userSelect: 'none',
-                    }}
-                >
-                    <div
-                        style={{
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                            marginBottom: '0.5rem'
-                        }}
-                        onMouseDown={handleMouseDown}
-                    >
-                        <span>D.ai.y Image Generator</span>
+                <div className="fixed bottom-6 right-6 z-50 bg-white/95 shadow-lg rounded-xl p-6 w-[400px] backdrop-blur-sm border border-gray-200">
+                    <div className="flex items-center justify-between mb-4">
+                        <span className="text-lg font-semibold text-gray-800">D.ai.y Image Generator</span>
                         <button
                             onClick={() => {
                                 setIsVisible(false);
                                 setPrompt('');
-                                setPosition({ x: window.innerWidth - 20, y: window.innerHeight - 20 });
                             }}
-                            style={{ background: 'none', border: 'none', cursor: 'pointer' }}
+                            className="text-gray-500 hover:text-gray-700 transition-colors"
                         >
                             ✕
                         </button>
                     </div>
-                    <input
-                        type="text"
-                        placeholder="Enter a prompt..."
-                        value={prompt}
-                        onChange={(e) => setPrompt(e.target.value)}
-                        style={{ width: '200px', marginRight: '0.5rem' }}
-                    />
-                    <button onClick={handleGenerateImage} disabled={loading || !prompt}>
-                        {loading ? 'Generating...' : 'Generate with D.ai.y'}
-                    </button>
+                    <div className="space-y-4">
+                        <input
+                            type="text"
+                            placeholder="Enter a prompt..."
+                            value={prompt}
+                            onChange={(e) => setPrompt(e.target.value)}
+                            className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
+                        />
+                        <button 
+                            onClick={handleGenerateImage} 
+                            disabled={loading || !prompt}
+                            className={`w-full py-2.5 px-4 rounded-lg font-medium text-white transition-all
+                                ${loading || !prompt 
+                                    ? 'bg-gray-400 cursor-not-allowed' 
+                                    : 'bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 shadow-md hover:shadow-lg'
+                                }`}
+                        >
+                            {loading ? (
+                                <span className="flex items-center justify-center">
+                                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                    </svg>
+                                    Generating...
+                                </span>
+                            ) : 'Generate with D.ai.y'}
+                        </button>
+                    </div>
                 </div>
             ) : (
                 <button
                     onClick={() => setIsVisible(true)}
-                    style={{
-                        position: 'fixed',
-                        bottom: '20px',
-                        right: '20px',
-                        zIndex: 999,
-                        padding: '0.5rem',
-                        borderRadius: '4px',
-                        background: 'rgba(255, 255, 255, 0.9)',
-                        cursor: 'pointer'
-                    }}
+                    className="fixed bottom-6 right-6 z-50 px-4 py-2 bg-white/95 shadow-lg rounded-lg hover:shadow-xl transition-all text-gray-800 font-medium hover:bg-white"
                 >
                     Show D.ai.y Generator
                 </button>
@@ -200,9 +168,8 @@ export default function CreativeEditorSDKComponent() {
             {/* The CreativeEditor container */}
             <div
                 ref={cesdkContainerRef}
-                style={{ width: '100%', height: '100%' }}
-            >
-            </div>
+                className="w-full h-full"
+            />
         </div>
     );
 }
