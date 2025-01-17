@@ -11,6 +11,9 @@ const nextConfig: NextConfig = {
       {
         hostname: "oaidalleapiprodscus.blob.core.windows.net",
       },
+      {
+        hostname: "drive.google.com",
+      },
     ],
   },
 };

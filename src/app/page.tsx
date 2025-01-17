@@ -7,6 +7,8 @@ import { Search, User, Heart, ShoppingCart, ChevronLeft, ChevronRight, ChevronDo
 import { SignInButton, SignedIn, SignedOut, UserButton, useUser } from '@clerk/nextjs'
 import { useRouter } from 'next/navigation';
 
+export const dynamic = 'force-dynamic'
+
 export default function Home() {
   const router = useRouter();
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -112,7 +114,8 @@ export default function Home() {
               objectFit="contain"
             />
           </div>
-          <nav className="hidden md:block">
+
+            <nav className="hidden md:block">
             <ul className={`flex gap-4 md:gap-6 ${megaMenuOpen ? 'text-black' : 'text-white'}`}>
               <li>
                 <button
@@ -124,21 +127,14 @@ export default function Home() {
                 </button>
               </li>
               {/* <li className="text-sm md:text-base">Shop</li> */}
-              <li className="text-md md:text-base">
-                <Link href="/sell-your-art" className=" text-white">
-                  Sell Your Art
-                </Link></li>
-              <li className="text-md md:text-base">
-                <Link href="/how-it-works" className="text-white">
-                  How It Works
-                </Link></li>
-              <li className="text-md md:text-base">
-                <Link href="#" onClick={handleEditorNavigation} className="text-white">
-                  Editor
-                </Link></li>
-
+              <li className={`text-md ${megaMenuOpen ? 'text-black' : 'text-white'}`}>
+                <Link href="/shop">
+                  Shop
+                </Link>
+              </li>
             </ul>
           </nav>
+
         </div>
         <div className="flex items-center gap-2 md:gap-4">
           <div className="relative hidden md:block">
@@ -150,15 +146,17 @@ export default function Home() {
             />
             <Search className={`absolute right-2 md:right-3 top-1/2 h-3 w-3 md:h-4 md:w-4 -translate-y-1/2 ${megaMenuOpen ? 'text-gray-500' : 'text-white'}`} />
           </div>
-          <button className="p-1 md:p-2 hidden md:block text-white">
-            <SignedOut >
-              <SignInButton />
+          <button className="p-1 md:p-2 hidden md:block">
+            <SignedOut>
+              <SignInButton mode="modal">
+                <div className="text-sm font-medium hover:text-gray-200 transition-colors">
+                  {megaMenuOpen ? 'Sign In' : <span className="text-white">Sign In</span>}
+                </div>
+              </SignInButton>
             </SignedOut>
             <SignedIn>
-
               <UserButton />
             </SignedIn>
-
           </button>
           <button className="p-1 md:p-2 hidden md:block">
             <Heart className={`h-4 w-4 md:h-5 md:w-5 ${megaMenuOpen ? 'text-black' : 'text-white'}`} />
@@ -213,17 +211,11 @@ export default function Home() {
               {/* <li><Link href="#" className="block">Shop</Link></li> */}
               <li><Link href="#" className="block">Search</Link></li>
               <li className="text-md md:text-base">
-                <Link href="/sell-your-art" className=" block">
-                  Sell Your Art
-                </Link></li>
-              <li className="text-md md:text-base">
-                <Link href="/how-it-works" className=" block">
-                  How It Works
-                </Link></li>
-              <li className="text-md md:text-base">
-                <Link href="#" onClick={handleEditorNavigation} className=" block">
-                  Editor
-                </Link></li>
+                <Link href="/shop" className=" block">
+                  Shop
+                </Link>
+              </li>
+          
               <SignedOut>
                 <SignInButton />
               </SignedOut>
@@ -291,7 +283,7 @@ export default function Home() {
             <h2 className="text-xl md:text-2xl lg:text-4xl font-bold">
               {slides[currentSlide].title}
             </h2>
-            <p className="text-gray-300 text-xs md:text-sm lg:text-base">
+            <p className="text-gray-100 text-xs md:text-sm lg:text-base">
               {slides[currentSlide].description}
             </p>
             <button className="bg-white text-[#00C4CC] font-bold py-1 px-3 md:py-2 md:px-4 rounded-full text-xs md:text-sm lg:text-base hover:bg-gray-100 transition-colors">
@@ -323,19 +315,26 @@ export default function Home() {
                 style={{ transform: `translateX(-${currentSlide * 12.5}%)` }}
               >
                 {[
-                  { name: 'Vintage', image: 'https://i.ibb.co/FwwmPNL/Category-Icon-Vintage.png' },
-                  { name: 'Surrealism', image: 'https://i.ibb.co/vvcBnkm/Category-Icon-Surrealism.jpg' },
-                  { name: 'Mindfulness', image: 'https://i.ibb.co/smLDfzq/Category-Icon-Mindfulness.jpg' },
+                  { key: 1, name: 'Vintage', image: 'https://i.ibb.co/FwwmPNL/Category-Icon-Vintage.png' },
+                  { key: 2, name: 'Surrealism', image: 'https://i.ibb.co/vvcBnkm/Category-Icon-Surrealism.jpg' },
+                  { key: 3, name: 'Mindfulness', image: 'https://i.ibb.co/smLDfzq/Category-Icon-Mindfulness.jpg' },
                   { name: 'Love', image: 'https://i.ibb.co/YcwsxRH/Category-Icon-Love.jpg' },
-                  { name: 'Anime', image: 'https://i.ibb.co/M27s5rK/Category-Icon-Anime.jpg' },
-                  { name: 'Animals', image: 'https://i.ibb.co/Zc0znbq/Category-Icon-Animal.webp' },
-                  { name: 'Nature', image: 'https://i.ibb.co/pRXBJzv/Category-Icon-Nature.jpg' },
-                  { name: 'Abstract', image: 'https://i.ibb.co/0q2KJt4/Category-Icon-Abstract.png' }
+                  { key: 5, name: 'Anime', image: 'https://i.ibb.co/M27s5rK/Category-Icon-Anime.jpg' },
+                  { key: 6, name: 'Animals', image: 'https://i.ibb.co/Zc0znbq/Category-Icon-Animal.webp' },
+                  { key: 7, name: 'Nature', image: 'https://i.ibb.co/pRXBJzv/Category-Icon-Nature.jpg' },
+                  { key: 8, name: 'Abstract', image: 'https://i.ibb.co/0q2KJt4/Category-Icon-Abstract.png' },
+                  { key: 9, name: 'Vintage', image: 'https://i.ibb.co/FwwmPNL/Category-Icon-Vintage.png' },
+                  { key: 10, name: 'Surrealism', image: 'https://i.ibb.co/vvcBnkm/Category-Icon-Surrealism.jpg' },
+                  { key: 11, name: 'Mindfulness', image: 'https://i.ibb.co/smLDfzq/Category-Icon-Mindfulness.jpg' },
+                  { key: 12, name: 'Love', image: 'https://i.ibb.co/YcwsxRH/Category-Icon-Love.jpg' },
+                  { key: 13, name: 'Anime', image: 'https://i.ibb.co/M27s5rK/Category-Icon-Anime.jpg' },
+                  { key: 14, name: 'Animals', image: 'https://i.ibb.co/Zc0znbq/Category-Icon-Animal.webp' },
+                  { key: 15, name: 'Nature', image: 'https://i.ibb.co/pRXBJzv/Category-Icon-Nature.jpg' },
+                  { key: 16, name: 'Abstract', image: 'https://i.ibb.co/0q2KJt4/Category-Icon-Abstract.png' }
                 ].map((category) => (
-                  <div key={category.name} className="flex-shrink-0 w-1/4 sm:w-1/5 md:w-1/6 lg:w-1/8 px-1 md:px-2">
-                    <div className="h-12 w-12 sm:h-16 sm:w-16 md:h-24 md:w-24 mx-auto overflow-hidden rounded-full bg-gray-800">
+                  <div key={category.key + category.name} className="flex-shrink-0 w-1/4 sm:w-1/5 md:w-1/6 lg:w-1/12 px-0.5 md:px-1">
+                    <div className="h-12 w-12 sm:h-16 sm:w-16 md:h-20 md:w-20 mx-auto overflow-hidden rounded-full bg-gray-800">
                       <Link href="/how-it-works">
-
                         <Image
                           src={category.image}
                           alt={category.name}
@@ -343,10 +342,9 @@ export default function Home() {
                           height={96}
                           className="h-full w-full object-cover"
                         />
-
                       </Link>
                     </div>
-                    <p className="mt-1 md:mt-2 text-center text-xs md:text-sm text-white">{category.name}</p>
+                    <p className="mt-1 text-center text-xs md:text-sm text-white">{category.name}</p>
                   </div>
                 ))}
               </div>
@@ -405,30 +403,35 @@ export default function Home() {
       <section className="bg-white py-8 md:py-16">
         <div className="container mx-auto px-4">
           <span className="text-gray-600 text-sm md:text-base">This Week's Trendiest Art Genesist</span>
-          <h2 className="text-xl md:text-2xl lg:text-3xl font-bold mb-4 md:mb-8 lg:mb-12">Weekly Top Art Genesists</h2>
+          <h2 className="text-xl md:text-2xl lg:text-3xl font-bold mb-4 md:mb-8 lg:mb-12">Weekly Top 5 Art Genesists</h2>
           <div className="grid grid-cols-1 md:grid-cols-5 gap-4 md:gap-8">
             <div className="md:col-span-2">
               <div className="flex flex-col items-center md:items-start py-2 md:py-4 lg:flex lg:items-center lg:justify-center lg:h-full">
                 <div className="aspect-square rounded-full overflow-hidden relative flex items-center justify-center w-48 h-48 md:w-64 md:h-64 lg:w-[450px] lg:h-[450px]  ">
                   <Link href={isActive ? "/editor" : "/pricing"}>
                     <Image
-                      src="https://i.ibb.co/vP1szHC/24-Q402-GM-Holiday-NJa-G-On-Site-Homepage-Mobile-Tile-Gift-Guides.jpg"
+                      src="/cover.jpg"
                       alt="Featured Artist"
                       width={500}
                       height={600}
                       className="absolute inset-0 w-full h-full object-cover rounded-full"
                     />
                   </Link>
-                  <p className="mt-4 text-center text-white">Artist Name</p>
+                  <p className="absolute bottom-10 mt-4 text-xl text-center text-white">Evan Moxwell</p>
                 </div>
               </div>
             </div>
             <div className="md:col-span-3 grid grid-cols-2 gap-4 md:gap-8">
-              {Array.from({ length: 4 }).map((_, i) => (
+              {[
+              { img: '/img4.png', name: 'Komorebi Studio' },
+              { img: '/img3.jpg', name: 'Nova Chromatic' },
+              { img: '/img2.jpg', name: 'Zephyr Cascade' },
+              { img: '/img1.jpg', name: 'Sienna' },
+              ].map((img, i) => (
                 <div key={i} className="flex flex-col items-center">
                   <div className="aspect-square rounded-full overflow-hidden bg-black flex items-center justify-center w-24 h-24 sm:w-32 sm:h-32 md:w-48 md:h-48">
                     <Image
-                      src="https://i.ibb.co/L1YNjf8/avatar-1985856-140x140.jpg"
+                      src={img.img}
                       alt={`Artist ${i + 1}`}
                       width={200}
                       height={200}
@@ -436,7 +439,7 @@ export default function Home() {
                     />
                   </div>
                   <div className="mt-2 md:mt-4 text-center md:text-left text-black">
-                    <p className="text-sm md:text-base">Artist Name</p>
+                    <p className="text-sm md:text-base">{img.name}</p>
                   </div>
                 </div>
               ))}

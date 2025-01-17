@@ -14,6 +14,7 @@ const HamburgerMenu = () => {
     <div className="max-h-screen bg-white text-[#000000] font-bold z-50">
       <header className="flex items-center justify-between  px-4 sm:px-6 p-2 h-[100px]">
         <div className="flex items-center">
+          <Link href="/">
           <Image
             src="https://i.ibb.co/rm27hJ2/DAIY-logo-B-W.png"
             alt="Background image"
@@ -22,22 +23,15 @@ const HamburgerMenu = () => {
             className="z-0 w-fill h-fill text-gray-500 overflow-hidden object-fit"
 
           />
+          </Link>
           <nav className="hidden md:flex items-center space-x-6 ml-6">
             <Link href="/" className="text-sm">
-              Art Connoissance
+              Art Geneissance
             </Link>
             <Link href="/shop" className="text-sm">
               Shop
             </Link>
-            <Link href="/sell-your-art" className="text-sm">
-              Sell Your Art
-            </Link>
-            <Link href="/how-it-works" className="text-sm">
-              How It Works
-            </Link>
-            <Link href="/editor" className="text-sm">
-              Editor
-            </Link>
+         
 
 
           </nav>
@@ -69,16 +63,7 @@ const HamburgerMenu = () => {
                 <Link href="/shop" className="text-sm" onClick={toggleMenu}>
                   Shop
                 </Link>
-                <Link href="/sell-your-art" className="text-sm">
-                  Sell Your Art
-                </Link>
-                <Link href="/how-it-works" className="text-sm">
-                  How It Works
-                </Link>
-                <Link href="/editor" className="text-sm">
-                  Editor
-                </Link>
-
+             
                 <div className="flex items-center space-x-4 pt-4 border-t">
                   <SignedOut>
                     <SignInButton />

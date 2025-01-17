@@ -1,5 +1,6 @@
 import CreativeEditorSDK, { DesignBlockType } from '@cesdk/cesdk-js';
-import OpenAI from 'openai';
+// import BackgroundRemovalPlugin from '@imgly/plugin-background-removal-web';
+// import VectorizerPlugin from '@imgly/plugin-vectorizer-web';
 
 import { useEffect, useRef, useState } from 'react';
 
@@ -10,12 +11,6 @@ const config = {
     callbacks: { onUpload: 'local' as const }
 };
 
-// Replace with your actual API key or retrieve it from a secure location.
-// For example, you might do: process.env.NEXT_PUBLIC_OPENAI_API_KEY
-const openaiApiKey = process.env.NEXT_PUBLIC_OPENAI_API_KEY;
-
-// Mock image URL
-const MOCK_IMAGE_URL = 'https://i.ibb.co/FwwmPNL/Category-Icon-Vintage.png';
 
 export default function CreativeEditorSDKComponent() {
     const cesdkContainerRef = useRef<HTMLDivElement>(null);
@@ -44,11 +39,20 @@ export default function CreativeEditorSDKComponent() {
                 // Load assets first
                 await Promise.all([
                     instance.addDefaultAssetSources(),
-                    instance.addDemoAssetSources({ sceneMode: 'Design' })
-                ]);
+                    // instance.addDemoAssetSources({ sceneMode: 'Design' }),
+                    // instance.addPlugin(BackgroundRemovalPlugin({
+                    //     ui:{
+                    //         locations:'canvasMenu'
+                    //     }
+                    // })),
+                    // instance.addPlugin(VectorizerPlugin({
+                    //     ui:{
+                    //         locations:'canvasMenu'
+                    //     }
+                    // })),
+                ]); 
 
-                // Create a new design scene and ensure it's ready
-                const scene = await instance.createDesignScene();
+                await instance.createDesignScene();
 
                 setCesdk(instance);
             }
@@ -61,32 +65,23 @@ export default function CreativeEditorSDKComponent() {
         };
     }, []);
 
+
+    useEffect(() => {
+        if (cesdk) {
+        }
+    }, [cesdk]);
+
     // Call OpenAI with the prompt to generate a DALL·E image, then insert it into the Editor
     const handleGenerateImage = async () => {
         if (!cesdk || !prompt) return;
         setLoading(true);
         try {
-            // Initialize OpenAI client
-            const openai = new OpenAI({ apiKey: openaiApiKey, dangerouslyAllowBrowser: true });
-
-            // Generate image with DALL-E
-            const response = await openai.images.generate({
-                model: "dall-e-3",
-                prompt: prompt,
-                n: 1,
-                size: "1024x1024",
-            });
-
-            const imageUrl = response.data[0]?.url;
-            if (!imageUrl) throw new Error('No image URL received from DALL-E');
-
-            // Fetch the image through your backend proxy
-            const proxyResponse = await fetch('/api/proxy-image', {
+            const proxyResponse = await fetch('/api/image-gen', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ imageUrl }),
+                body: JSON.stringify({ prompt }),
             });
 
             if (!proxyResponse.ok) {
@@ -206,7 +201,8 @@ export default function CreativeEditorSDKComponent() {
             <div
                 ref={cesdkContainerRef}
                 style={{ width: '100%', height: '100%' }}
-            ></div>
+            >
+            </div>
         </div>
     );
 }
