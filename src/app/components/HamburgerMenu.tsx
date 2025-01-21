@@ -31,6 +31,9 @@ const HamburgerMenu = () => {
             <Link href="/shop" className="text-sm">
               Shop
             </Link>
+            <Link href="/editor" className="text-sm">
+                  Create Your Own
+                </Link>
          
 
 
