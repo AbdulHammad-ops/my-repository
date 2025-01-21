@@ -10,6 +10,7 @@ export async function POST(request: Request) {
           prompt,
           n: 1,
           size: "1024x1024",
+          quality:"standard",
         });
       
         const imageUrl = response.data[0].url;
@@ -27,6 +28,7 @@ export async function POST(request: Request) {
           },
         });
     } catch (error) {
+        console.error("Error generating image", error);
         if(error instanceof APIError) {
             return new NextResponse(error.message, { status:error.status });
         }

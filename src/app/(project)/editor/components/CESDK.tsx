@@ -96,9 +96,13 @@ export default function CreativeEditorSDKComponent() {
 
             // Load the proxied image into the current editor scene
             await cesdk.engine.scene.createFromImage(proxiedUrl);
+            
+            // if there is an image already in the scene add it to the background
 
             URL.revokeObjectURL(proxiedUrl);
             const blocks = cesdk.engine.block.findByKind('image');
+
+            console.log(blocks);
             if (blocks.length > 0) {
                 cesdk.engine.block.setSelected(blocks[blocks.length - 1], true);
             }

@@ -132,6 +132,11 @@ export default function Home() {
                   Shop
                 </Link>
               </li>
+              <li className={`text-md ${megaMenuOpen ? 'text-black' : 'text-white'}`}>
+                <Link href="/editor">
+                  Create Your Own
+                </Link>
+              </li>
             </ul>
           </nav>
 
