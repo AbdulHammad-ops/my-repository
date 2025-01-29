@@ -1,3 +1,5 @@
+"use client"
+
 import { Loader2 } from "lucide-react";
 import HamburgerMenu from "../components/HamburgerMenu";
 import { Suspense } from "react";
@@ -8,18 +10,21 @@ function Loading() {
     </div>)
 }
 
-export default async function RootLayout({
+export default function RootLayout({
     children,
 }: Readonly<{
     children: React.ReactNode;
 }>) {
-
-
     return (
         <Suspense fallback={<Loading />}>
-            <div>
-                <HamburgerMenu />
-                {children}
+            <div className="min-h-screen">
+                <div className="relative">
+                    <HamburgerMenu />
+                    <main className="pt-20
+                    ">
+                        {children}
+                    </main>
+                </div>
             </div>
         </Suspense>
     );

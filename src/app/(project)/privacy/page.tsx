@@ -51,7 +51,7 @@ const Privacy = () => {
           If you have any questions about this Privacy Policy, please contact us at:
           <br />
           <a href="mailto:contact@example.com" className="text-blue-600 hover:underline">
-            contact@example.com
+            daiystore.victoria@gmail.com
           </a>
         </p>
       </section>

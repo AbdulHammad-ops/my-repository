@@ -8,7 +8,7 @@ const Shop = () => {
   return (
     <div className="w-full">
       {/* Hero Image Section */}
-      <div className="relative w-full h-[400px]">
+      <div className="relative w-full h-[500px]">
         <Image
           src="/Shopfront banner.png"
           alt="Japanese themed artwork with sushi roll and flowers"
@@ -20,9 +20,9 @@ const Shop = () => {
 
       {/* Profile Section */}
       <div className="flex flex-col items-center justify-center bg-black">
-        <div className="bg-black text-white px-10 py-4 flex items-center justify-between w-full container mx-auto">
+        <div className="bg-black text-white px-10 py-8 flex items-center justify-between w-full container mx-auto relative">
           <div className="relative flex items-center gap-4 ">
-            <div className="absolute w-48 h-48 rounded-full overflow-hidden border-2 border-white">
+            <div className="absolute -top-24 w-48 h-48 rounded-full overflow-hidden border-2 border-white">
               <Image
                 src="/img4.png"
                 alt="Profile"

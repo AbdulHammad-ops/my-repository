@@ -35,11 +35,11 @@ export default function Page() {
                 </div>
               </div>
               <div className="order-1 md:order-2 md:col-span-2">
-                <h3 className="text-xl md:text-2xl font-bold mb-4 md:mb-8 text-black">Artists (How to Become an Art Geneisist!)</h3>
+                <h3 className="text-xl md:text-2xl font-bold mb-4 md:mb-8 text-black">Artists (How to Become an Art Genesists!)</h3>
                 <ol className="space-y-4 md:space-y-6">
                   <li>
-                    <p className="font-semibold text-black">1. Open an Art Geneisist Shop:</p>
-                    <p className="text-sm md:text-base text-gray-900">Art Geneisists sign up for free and set up Art Geneisist shop.</p>
+                    <p className="font-semibold text-black">1. Open an Art Genesists Shop:</p>
+                    <p className="text-sm md:text-base text-gray-900">Art Genesists sign up for free and set up Art Genesists shop.</p>
                     <p className="text-sm md:text-base text-gray-900">It's simple, quick, and you can start selling right away!</p>
                   </li>
                   <li>
@@ -107,9 +107,9 @@ export default function Page() {
               <div className="order-1 md:order-2 md:col-span-2">
                 <ol className="space-y-4 md:space-y-6" start={5}>
                   <li>
-                    <p className="font-semibold text-black">5. Art Geneisist Earn:</p>
+                    <p className="font-semibold text-black">5. Art Genesists Earn:</p>
                     <p className="text-sm md:text-base text-gray-900">
-                      Every purchase pays an Art Geneisist. Our Art Geneisists earn money with each sale,
+                      Every purchase pays an Art Genesists. Our Art Genesists earn money with each sale,
                       fostering a thriving community of creatives.
                     </p>
                   </li>
@@ -151,4 +151,3 @@ export default function Page() {
     </div>
   )
 }
-

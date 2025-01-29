@@ -11,6 +11,7 @@ export const dynamic = 'force-dynamic'
 
 export default function Home() {
   const router = useRouter();
+  const { isLoaded, isSignedIn, user } = useUser();
   const [currentSlide, setCurrentSlide] = useState(0);
   const [megaMenuOpen, setMegaMenuOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -59,9 +60,6 @@ export default function Home() {
     }
   ];
 
-  const { user } = useUser();
-  const isActive = user?.publicMetadata?.isActive;
-
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prevSlide) => (prevSlide + 1) % slides.length);
@@ -94,7 +92,7 @@ export default function Home() {
 
   const handleEditorNavigation = (e: React.MouseEvent) => {
     e.preventDefault();
-    if (isActive) {
+    if (user) {
       router.push('/editor');
     } else {
       router.push('/pricing');
@@ -104,58 +102,57 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-white">
       {/* Header Section */}
-      <header className={`absolute top-0 left-0 right-0 z-50 flex items-center justify-between p-4 ${megaMenuOpen ? 'bg-white' : ''}`}>
+      <header className={`absolute top-0 left-0 right-0 z-50 flex items-center justify-between p-4 transition-colors duration-200 ${megaMenuOpen ? 'bg-black' : ''}`}>
         <div className="flex items-center gap-4 md:gap-8">
           <div className="relative h-6 w-24 md:h-8 md:w-32">
             <Image
-              src={megaMenuOpen ? "https://i.ibb.co/rm27hJ2/DAIY-logo-B-W.png" : "https://i.ibb.co/7rqR3Zv/Dai-Y-white-logo.png"}
+              src="https://i.ibb.co/7rqR3Zv/Dai-Y-white-logo.png"
               alt="D.ai.Y Logo"
               layout="fill"
               objectFit="contain"
+              priority
             />
           </div>
 
-            <nav className="hidden md:block">
-            <ul className={`flex gap-4 md:gap-6 ${megaMenuOpen ? 'text-black' : 'text-white'}`}>
+          <nav className="hidden md:block">
+            <ul className="flex gap-4 md:gap-6 text-white">
               <li>
                 <button
                   className="flex items-center gap-1 text-sm md:text-base"
                   onClick={toggleMegaMenu}
                 >
                   Art Geneissance
-                  <ChevronDown className={`h-3 w-3 md:h-4 md:w-4 ${megaMenuOpen ? 'text-black' : 'text-white'}`} />
+                  <ChevronDown className="h-3 w-3 md:h-4 md:w-4 transition-transform duration-200 text-white" />
                 </button>
               </li>
-              {/* <li className="text-sm md:text-base">Shop</li> */}
-              <li className={`text-md ${megaMenuOpen ? 'text-black' : 'text-white'}`}>
+              <li className="text-md">
                 <Link href="/shop">
                   Shop
                 </Link>
               </li>
-              <li className={`text-md ${megaMenuOpen ? 'text-black' : 'text-white'}`}>
+              <li className="text-md">
                 <Link href="/editor">
                   Create Your Own
                 </Link>
               </li>
             </ul>
           </nav>
-
         </div>
+
         <div className="flex items-center gap-2 md:gap-4">
           <div className="relative hidden md:block">
             <input
               type="search"
               placeholder="Search"
-              className={`border-2 border-white px-2 py-1 md:px-4 md:py-2 pr-8 md:pr-10 text-sm ${megaMenuOpen ? 'bg-gray-100 text-black placeholder-gray-500' : 'bg-transparent text-white placeholder-white'
-                }`}
+              className="border-2 border-white px-2 py-1 md:px-4 md:py-2 pr-8 md:pr-10 text-sm bg-transparent text-white placeholder-white"
             />
-            <Search className={`absolute right-2 md:right-3 top-1/2 h-3 w-3 md:h-4 md:w-4 -translate-y-1/2 ${megaMenuOpen ? 'text-gray-500' : 'text-white'}`} />
+            <Search className="absolute right-2 md:right-3 top-1/2 h-3 w-3 md:h-4 md:w-4 -translate-y-1/2 text-white" />
           </div>
           <button className="p-1 md:p-2 hidden md:block">
             <SignedOut>
               <SignInButton mode="modal">
-                <div className="text-sm font-medium hover:text-gray-200 transition-colors">
-                  {megaMenuOpen ? 'Sign In' : <span className="text-white">Sign In</span>}
+                <div className="text-sm font-medium text-white hover:text-gray-200 transition-colors">
+                  Sign In
                 </div>
               </SignInButton>
             </SignedOut>
@@ -164,10 +161,10 @@ export default function Home() {
             </SignedIn>
           </button>
           <button className="p-1 md:p-2 hidden md:block">
-            <Heart className={`h-4 w-4 md:h-5 md:w-5 ${megaMenuOpen ? 'text-black' : 'text-white'}`} />
+            <Heart className="h-4 w-4 md:h-5 md:w-5 text-white" />
           </button>
           <button className="p-1 md:p-2">
-            <ShoppingCart className={`h-4 w-4 md:h-5 md:w-5 ${megaMenuOpen ? 'text-black' : 'text-white'}`} />
+            <ShoppingCart className="h-4 w-4 md:h-5 md:w-5 text-white" />
           </button>
           <button className="p-1 md:p-2 md:hidden" onClick={toggleMobileMenu}>
             <Menu className="h-5 w-5 md:h-6 md:w-6 text-white" />
@@ -323,7 +320,7 @@ export default function Home() {
                   { key: 1, name: 'Vintage', image: 'https://i.ibb.co/FwwmPNL/Category-Icon-Vintage.png' },
                   { key: 2, name: 'Surrealism', image: 'https://i.ibb.co/vvcBnkm/Category-Icon-Surrealism.jpg' },
                   { key: 3, name: 'Mindfulness', image: 'https://i.ibb.co/smLDfzq/Category-Icon-Mindfulness.jpg' },
-                  { name: 'Love', image: 'https://i.ibb.co/YcwsxRH/Category-Icon-Love.jpg' },
+                  { key: 4, name: 'Love', image: 'https://i.ibb.co/YcwsxRH/Category-Icon-Love.jpg' },
                   { key: 5, name: 'Anime', image: 'https://i.ibb.co/M27s5rK/Category-Icon-Anime.jpg' },
                   { key: 6, name: 'Animals', image: 'https://i.ibb.co/Zc0znbq/Category-Icon-Animal.webp' },
                   { key: 7, name: 'Nature', image: 'https://i.ibb.co/pRXBJzv/Category-Icon-Nature.jpg' },
@@ -335,9 +332,9 @@ export default function Home() {
                   { key: 13, name: 'Anime', image: 'https://i.ibb.co/M27s5rK/Category-Icon-Anime.jpg' },
                   { key: 14, name: 'Animals', image: 'https://i.ibb.co/Zc0znbq/Category-Icon-Animal.webp' },
                   { key: 15, name: 'Nature', image: 'https://i.ibb.co/pRXBJzv/Category-Icon-Nature.jpg' },
-                  { key: 16, name: 'Abstract', image: 'https://i.ibb.co/0q2KJt4/Category-Icon-Abstract.png' }
+                  { key: 16, name: 'Be Strong', image: 'https://i.ibb.co/YcwsxRH/tree-strong.jpg' }
                 ].map((category) => (
-                  <div key={category.key + category.name} className="flex-shrink-0 w-1/4 sm:w-1/5 md:w-1/6 lg:w-1/12 px-0.5 md:px-1">
+                  <div key={category.key} className="flex-shrink-0 w-1/4 sm:w-1/5 md:w-1/6 lg:w-1/12 px-0.5 md:px-1">
                     <div className="h-12 w-12 sm:h-16 sm:w-16 md:h-20 md:w-20 mx-auto overflow-hidden rounded-full bg-gray-800">
                       <Link href="/how-it-works">
                         <Image
@@ -356,21 +353,25 @@ export default function Home() {
             </div>
             <button
               className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 bg-black bg-opacity-50 p-1 md:p-2 rounded-full"
-              onClick={() => setCurrentSlide((prev) => (prev > 0 ? prev - 1 : 7))}
+              onClick={() => {
+                const maxSlides = Math.ceil(16 / 8) - 1; // Calculate max slides based on total items divided by visible items
+                setCurrentSlide((prev) => Math.max(0, prev - 1));
+              }}
             >
               <ChevronLeft className="h-3 w-3 md:h-4 md:w-4 lg:h-6 lg:w-6 text-white" />
             </button>
             <button
               className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 bg-black bg-opacity-50 p-1 md:p-2 rounded-full"
-              onClick={() => setCurrentSlide((prev) => (prev < 7 ? prev + 1 : 0))}
+              onClick={() => {
+                const maxSlides = Math.ceil(16 / 8) - 1; // Calculate max slides based on total items divided by visible items
+                setCurrentSlide((prev) => Math.min(maxSlides, prev + 1));
+              }}
             >
               <ChevronRight className="h-3 w-3 md:h-4 md:w-4 lg:h-6 lg:w-6 text-white" />
             </button>
           </div>
         </div>
       </section>
-
-      {/* Customization Section */}
 
       {/* Best Sellers */}
       <section className="bg-black py-8 md:py-16">
@@ -383,16 +384,14 @@ export default function Home() {
             {Array.from({ length: 10 }).map((_, i) => (
               <div key={i} className="space-y-1 md:space-y-2">
                 <div className="aspect-square overflow-hidden rounded-lg">
-                  <Link href={isActive ? "/editor" : "/pricing"}>
-
+                  <Link href={user ? "/editor" : "/pricing"}>
                     <Image
-                      src={`https://i.ibb.co/tZh2dXW/Homepage-Tile-Desktop-2024-Hoodies.jpg${i + 1}`}
+                      src="https://i.ibb.co/tZh2dXW/Homepage-Tile-Desktop-2024-Hoodies.jpg"
                       alt={`Product ${i + 1}`}
                       width={200}
                       height={200}
                       className="w-full h-full object-cover"
                     />
-
                   </Link>
                 </div>
                 <h3 className="text-white text-xs md:text-sm font-medium">Product Name</h3>
@@ -404,6 +403,48 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Signup Section - Only show if user is not signed in */}
+      {isLoaded && !isSignedIn && (
+        <section className="relative w-full py-16 overflow-hidden">
+          {/* Gradient Background */}
+          <div className="absolute inset-0 bg-gradient-to-r from-cyan-200 via-yellow-100 to-pink-200 opacity-80"></div>
+          
+          {/* Bubble Effects */}
+          <div className="absolute inset-0">
+            {[...Array(20)].map((_, i) => (
+              <div
+                key={i}
+                className="absolute rounded-full bg-white/30 backdrop-blur-sm animate-float"
+                style={{
+                  width: `${Math.random() * 40 + 10}px`,
+                  height: `${Math.random() * 40 + 10}px`,
+                  left: `${Math.random() * 100}%`,
+                  top: `${Math.random() * 100}%`,
+                  animationDelay: `${Math.random() * 5}s`,
+                  animationDuration: `${Math.random() * 10 + 5}s`
+                }}
+              ></div>
+            ))}
+          </div>
+
+          {/* Content */}
+          <div className="relative z-10 max-w-4xl mx-auto text-center px-4">
+            <h2 className="text-2xl md:text-3xl font-bold mb-4 text-gray-800">
+              Sign Up for
+            </h2>
+            <p className="text-xl md:text-2xl font-semibold mb-8 text-gray-800">
+              Free Credits plus 20% Discount!
+            </p>
+            <Link 
+              href="/sign-up" 
+              className="inline-block px-8 py-3 text-lg font-medium text-white bg-[#12B1A4] rounded-full hover:bg-[#0E9B8F] transition-colors duration-200 transform hover:scale-105"
+            >
+              Yes, I want to sign up
+            </Link>
+          </div>
+        </section>
+      )}
+
       {/* Top Artists Section */}
       <section className="bg-white py-8 md:py-16">
         <div className="container mx-auto px-4">
@@ -413,7 +454,7 @@ export default function Home() {
             <div className="md:col-span-2">
               <div className="flex flex-col items-center md:items-start py-2 md:py-4 lg:flex lg:items-center lg:justify-center lg:h-full">
                 <div className="aspect-square rounded-full overflow-hidden relative flex items-center justify-center w-48 h-48 md:w-64 md:h-64 lg:w-[450px] lg:h-[450px]  ">
-                  <Link href={isActive ? "/editor" : "/pricing"}>
+                  <Link href={user ? "/editor" : "/pricing"}>
                     <Image
                       src="/cover.jpg"
                       alt="Featured Artist"
@@ -458,15 +499,15 @@ export default function Home() {
         <div className="container mx-auto px-4">
           <span className="text-gray-400 text-sm md:text-base">Step into the Worlds of our Art Genesists</span>
           <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-white mb-4 md:mb-8 lg:mb-12">Meet the Masters: Inside Art Geneissance</h2>
-          <div className="flex flex-wrap justify-center gap-4">
+          <div className="flex flex-wrap justify-between gap-4">
             {Array.from({ length: 4 }).map((_, i) => (
-              <div key={i} className="flex flex-col w-full sm:w-[200px] h-[300px] md:h-[400px]">
-                <div className="h-[200px] md:h-[300px] bg-white rounded-lg overflow-hidden">
-                  <Link href="/sell-your-art">
+              <div key={i} className="flex flex-col w-full sm:w-[calc(25%-1rem)] h-[400px]">
+                <div className="h-[300px] bg-white rounded-lg overflow-hidden">
+                  <Link href={`/article/${i + 1}`}>
                     <Image
                       src="https://i.ibb.co/cQY353Y/pexels-photo-2379004.jpg"
                       alt={`Article ${i + 1}`}
-                      width={200}
+                      width={400}
                       height={400}
                       className="w-full h-full object-cover"
                     />
@@ -493,16 +534,19 @@ export default function Home() {
               priority
               className="z-0"
             />
-            <div className="absolute inset-0 flex flex-col justify-center px-4 sm:px-8 max-w-4xl mx-auto z-10">
-              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-2 sm:mb-4 drop-shadow-lg">
-                Prompt.. Click.. Earn!
-              </h1>
-              <p className="text-sm sm:text-base md:text-lg lg:text-xl text-white mb-4 sm:mb-8">
-                Dai.Y's New Editing tool, powered with AI, makes creating your product range as easy as 1, 2, 3.
-              </p>
-              <button className="bg-[#00C4CC] text-white font-bold px-3 sm:px-4 md:px-6 py-2 rounded-md w-fit text-sm sm:text-base md:text-lg hover:bg-[#00B3BB] transition-colors">
-                <Link href="editor">Start Selling</Link>
-              </button>
+            <div className="absolute inset-0 flex flex-col justify-center px-4 sm:px-8 z-10 container mx-auto">
+              <div className="max-w-lg">
+                <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-2 sm:mb-4 drop-shadow-lg text-left">
+                  Prompt.. Click.. Earn!
+                </h1>
+                <p className="text-sm sm:text-base md:text-lg lg:text-xl text-white mb-4 sm:mb-8 text-left">
+                  Dai.Y's New Editing tool, powered with AI, makes creating your product range as easy as 1, 2, 3.
+                </p>
+                <Link href="editor" className="inline-flex items-center justify-center px-8 py-4 text-xl font-semibold text-white bg-[#00C4CC] rounded-full hover:bg-[#00B3BB] transition-all duration-200 transform hover:scale-105 w-fit">
+                  Start Selling 
+                  <span className="ml-2">→</span>
+                </Link>
+              </div>
             </div>
           </section>
         </div>
@@ -516,7 +560,7 @@ export default function Home() {
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2 md:gap-4">
             {Array.from({ length: 5 }).map((_, i) => (
               <div key={i} className="aspect-square bg-gray-100 rounded-lg overflow-hidden border-2 md:border-4 border-grey-500">
-                <Link href={isActive ? "/editor" : "/pricing"}>
+                <Link href={user ? "/editor" : "/pricing"}>
                   <Image
                     src="https://i.ibb.co/JqQjtqv/24-Q402-GM-Holiday-NJa-G-Homepage-Desktop-Tile-Phone-Cases.jpg"
                     alt={`Instagram post ${i + 1}`}
@@ -530,8 +574,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-
     </div>
   )
 }

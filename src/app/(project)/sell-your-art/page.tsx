@@ -44,7 +44,7 @@ const features = [
 
 export default function SellYourArt() {
   return (
-    <div className="min-h-screen bg-[#F5F5F5] text-[#000000] font-bold">
+    <div className="min-h-screen bg-white text-[#000000] font-bold">
       <main className="pb-12">
         {/* Hero Section */}
         <section className="relative h-[300px] sm:h-[400px] md:h-[500px] mb-12 z-[1]">
@@ -56,40 +56,47 @@ export default function SellYourArt() {
             priority
             className="z-0"
           />
-          <div className="absolute inset-0 flex flex-col justify-center px-4 sm:px-8 max-w-4xl mx-auto z-10">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-2 sm:mb-4 drop-shadow-lg">
-              Prompt.. Click.. Earn!
-            </h1>
-            <p className="text-base sm:text-lg md:text-xl text-white mb-4 sm:mb-8">
-              Dai.Y's New Editing tool, powered with AI, makes creating your product range as easy as 1, 2, 3.
-            </p>
-            <button className="bg-[#00C4CC] text-white font-bold hover:bg-[#00B3BB] w-fit">
-              Start Selling
-            </button>
+          <div className="absolute inset-0 flex flex-col justify-center px-4 sm:px-8">
+            <div className="max-w-xl ml-4 sm:ml-8 md:ml-16">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-2 sm:mb-4 drop-shadow-lg">
+                Prompt.. Click.. Earn!
+              </h1>
+              <p className="text-base sm:text-lg md:text-xl text-white mb-4 sm:mb-8">
+                Dai.Y's New Editing tool, powered with AI, makes creating your product range as easy as 1, 2, 3.
+              </p>
+              <div className="flex">
+                <button className="bg-[#12B1A4] text-white font-medium px-6 py-2 rounded-full hover:bg-[#0E9B8F] transition-all duration-200 flex items-center">
+                  Start Selling
+                  <span className="ml-2">→</span>
+                </button>
+              </div>
+            </div>
           </div>
         </section>
 
         {/* Introduction */}
-        <div className="max-w-3xl mx-auto px-4 mb-12 sm:mb-20 text-center">
-          <p className="text-base sm:text-lg mb-6">
-            Ready to showcase your AI-enhanced art to the world? Leverage our cutting-edge editing tool to create, display, and sell your innovative artworks on high-quality products designed to impress.
-          </p>
-          <p className="text-base sm:text-lg">
-            Become D.ai.Y's Art Genesis and turn your artistic passion into profit. With D.ai.Y, the power to create and earn is in your hands. Start your journey with us and let your designs create cash flow while you sleep!
-          </p>
+        <div className="max-w-4xl px-4 mb-12 sm:mb-20">
+          <div className="max-w-3xl ml-4 sm:ml-8 md:ml-16">
+            <p className="text-base sm:text-lg mb-6">
+              Ready to showcase your AI-enhanced art to the world? Leverage our cutting-edge editing tool to create, display, and sell your innovative artworks on high-quality products designed to impress.
+            </p>
+            <p className="text-base sm:text-lg">
+              Become D.ai.Y's Art Genesis and turn your artistic passion into profit. With D.ai.Y, the power to create and earn is in your hands. Start your journey with us and let your designs create cash flow while you sleep!
+            </p>
+          </div>
         </div>
 
         {/* Why Sell With Us */}
         <div className="max-w-4xl mx-auto px-4 mb-12 sm:mb-20">
           <h2 className="text-xl sm:text-2xl font-bold mb-8 sm:mb-16 text-center">Why Sell With Us?</h2>
-
-          <div className="space-y-12 sm:space-y-20">
+          
+          <div className="space-y-8">
             {features.map((feature, index) => (
               <div
                 key={feature.title}
-                className={`flex flex-col ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} items-center gap-4 sm:gap-8 md:gap-16 p-8 rounded-lg ${index % 2 === 0 ? 'bg-white' : 'bg-[#000000]'}`}
+                className="flex flex-col md:flex-row items-center gap-8 p-8 rounded-lg bg-gray-50"
               >
-                <div className="w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 flex-shrink-0 flex items-center justify-center bg-white rounded-full overflow-hidden">
+                <div className="w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 flex-shrink-0 flex items-center justify-center bg-white rounded-lg overflow-hidden">
                   <Image
                     src={feature.icon}
                     alt={feature.title}
@@ -98,19 +105,23 @@ export default function SellYourArt() {
                     className="w-[140px] h-[140px] object-contain"
                   />
                 </div>
-                <div className="flex-1 text-center md:text-left">
-                  <h3 className="text-base sm:text-lg font-semibold text-[#00C4CC] mb-2">
+                <div className="flex-1">
+                  <h3 className="text-lg font-semibold text-[#12B1A4] mb-2">
                     {index + 1}. {feature.title}
                   </h3>
-                  <p className={`text-sm sm:text-base ${index % 2 === 0 ? 'text-[#000000]' : 'text-white'}`}>
+                  <p className="text-base text-gray-800 mb-4">
                     {feature.description}
                   </p>
                   {feature.links && (
-                    <div className="mt-2 space-x-4">
+                    <div className="space-x-4">
                       {feature.links.map(link => (
-                        <span key={link} className={`text-[#00C4CC] text-sm sm:text-base ${index % 2 === 1 ? 'hover:text-white' : ''}`}>
+                        <Link 
+                          key={link} 
+                          href="#" 
+                          className="text-[#12B1A4] hover:text-[#0E9B8F] transition-colors duration-200"
+                        >
                           {link}
-                        </span>
+                        </Link>
                       ))}
                     </div>
                   )}
@@ -153,4 +164,3 @@ export default function SellYourArt() {
     </div>
   )
 }
-
