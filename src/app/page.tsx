@@ -2,10 +2,12 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
+import { Button } from "@/components/ui/button"
 import { useState, useEffect } from 'react'
 import { Search, User, Heart, ShoppingCart, ChevronLeft, ChevronRight, ChevronDown, Menu, X } from 'lucide-react'
 import { SignInButton, SignedIn, SignedOut, UserButton, useUser } from '@clerk/nextjs'
 import { useRouter } from 'next/navigation';
+import ArtGenesistInterview from './components/ArtGenesistInterview';
 
 export const dynamic = 'force-dynamic'
 
@@ -493,8 +495,50 @@ export default function Home() {
           </div>
         </div>
       </section>
+      {
+  /* Style Your World Section */
+}
+;<section className="bg-white -mb-[1px]">
+  <div className="w-full">
+    <div className="relative overflow-hidden">
+      <Image
+        src="/about us page-Product-types-banner.jpg"
+        alt="Product Types Banner"
+        width={1200}
+        height={600}
+        className="w-full h-auto"
+      />
+      <div className="absolute top-1/2 right-12 -translate-y-1/2 text-right">
+        <h2
+          className="text-6xl font-light text-white mb-4"
+          style={{
+            fontFamily: "'Dancing Script', cursive",
+            textShadow: `
+              0 0 2px rgba(255,255,255,0.3),
+              0 0 4px rgba(255,255,255,0.2),
+              0 0 6px rgba(255,255,255,0.1)
+            `,
+            letterSpacing: "0.05em",
+          }}
+        >
+          Style Your World
+        </h2>
+        <p className="text-xl text-white mb-6">Personalize your gear, make it yours</p>
+        <Link href="/editor">
+          <Button className="bg-[#00BFB3] hover:bg-[#00a69b] text-white rounded-full px-8 py-2">
+            Customize your design
+          </Button>
+        </Link>
+      </div>
+    </div>
+  </div>
+</section>
 
-      {/* Meet the Masters Section */}
+{
+  /* Meet the Masters Section */
+}
+;<section className="bg-black py-6 md:py-10">{/**/}</section>
+
       <section className="bg-black py-6 md:py-10">
         <div className="container mx-auto px-4">
           <span className="text-gray-400 text-sm md:text-base">Step into the Worlds of our Art Genesists</span>
@@ -574,6 +618,8 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      <ArtGenesistInterview />
     </div>
   )
 }
