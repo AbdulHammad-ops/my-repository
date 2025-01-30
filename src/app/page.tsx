@@ -502,7 +502,7 @@ export default function Home() {
   <div className="w-full">
     <div className="relative overflow-hidden">
       <Image
-        src="/about us page-Product-types-banner.jpg"
+        src="/About-Us-page-Product-types-banner.jpg"
         alt="Product Types Banner"
         width={1200}
         height={600}

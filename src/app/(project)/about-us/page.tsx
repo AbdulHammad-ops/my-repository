@@ -31,7 +31,7 @@ export default function AboutUs() {
         {/* Product Showcase Section */}
         <div className="mb-20 relative overflow-hidden rounded-3xl shadow-2xl">
           <Image
-            src="/about us page-Product-types-banner.jpg"
+            src="/About-Us-page-Product-types-banner.jpg"
             alt="Product Types Banner"
             width={1200}
             height={600}
