@@ -1,8 +1,10 @@
 import CreativeEditorSDK, { DesignBlockType } from '@cesdk/cesdk-js';
+import { useUser } from '@clerk/nextjs';
 // import BackgroundRemovalPlugin from '@imgly/plugin-background-removal-web';
 import VectorizerPlugin from '@imgly/plugin-vectorizer-web';
 
 import { useEffect, useRef, useState } from 'react';
+import { toast } from 'sonner';
 
 const config = {
     license: 'hdp7Bh6GtOygkf4N4VcYqzz52U2KYVCIijOh8L1zlcf29n3-ic87frosz5Ogp26b',
@@ -18,6 +20,7 @@ export default function CreativeEditorSDKComponent() {
     const [prompt, setPrompt] = useState('');
     const [loading, setLoading] = useState(false);
     const [isVisible, setIsVisible] = useState(true);
+    const { user } = useUser();
 
     useEffect(() => {
         if (!cesdkContainerRef.current) return;
@@ -77,7 +80,14 @@ export default function CreativeEditorSDKComponent() {
     // Call OpenAI with the prompt to generate a DALL·E image, then insert it into the Editor
     const handleGenerateImage = async () => {
         if (!cesdk || !prompt) return;
+
+        if(!user?.publicMetadata?.isActive) {
+            toast.error('Please purchase a subscription plan to use this feature.');
+            return;
+        }
+
         setLoading(true);
+        
         try {
             const proxyResponse = await fetch('/api/image-gen', {
                 method: 'POST',

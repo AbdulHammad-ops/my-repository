@@ -8,13 +8,6 @@ export default clerkMiddleware(
       if (!userId) {
         return NextResponse.redirect(new URL("/sign-in", req.url));
       }
-
-      const user = await (await clerkClient()).users.getUser(userId);
-      const isActive = user?.privateMetadata?.isActive;
-      console.log(isActive);
-      if (!isActive) {
-        return NextResponse.redirect(new URL("/pricing", req.url));
-      }
     }
 
     return NextResponse.next();

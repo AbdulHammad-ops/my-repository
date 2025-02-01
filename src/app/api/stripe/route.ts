@@ -61,14 +61,16 @@ export async function POST(req: Request) {
             subscriptionStatus: subscription.status,
             isActive:
               subscription.status === "active" ||
-              subscription.status === "trialing",
+              subscription.status === "trialing" ||
+              subscription.status === "incomplete" 
           },
           publicMetadata: {
             stripeCustomerId: customer,
             subscriptionStatus: subscription.status,
             isActive:
               subscription.status === "active" ||
-              subscription.status === "trialing",
+              subscription.status === "trialing"  ||
+              subscription.status === "incomplete" 
           },
         });
         break;
