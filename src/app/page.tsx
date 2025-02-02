@@ -17,6 +17,8 @@ export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [megaMenuOpen, setMegaMenuOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [showInterview, setShowInterview] = useState(false);
+  const [selectedArticle, setSelectedArticle] = useState<number | null>(null);
   const slides = [
     {
       title: "Super Cool Anime designs you've never seen elsewhere!",
@@ -382,23 +384,58 @@ export default function Home() {
             <span className="text-gray-400 text-sm md:text-base">Don't Miss This Week's Hottest Hits!</span>
             <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-white">Weekly Best Sellers</h2>
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 md:gap-4">
-            {Array.from({ length: 10 }).map((_, i) => (
-              <div key={i} className="space-y-1 md:space-y-2">
-                <div className="aspect-square overflow-hidden rounded-lg">
-                  <Link href={user ? "/editor" : "/pricing"}>
-                    <Image
-                      src="https://i.ibb.co/tZh2dXW/Homepage-Tile-Desktop-2024-Hoodies.jpg"
-                      alt={`Product ${i + 1}`}
-                      width={200}
-                      height={200}
-                      className="w-full h-full object-cover"
-                    />
-                  </Link>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6">
+            {[
+              '/shop/product1.png',
+              '/shop/product2.png',
+              '/shop/product3.png',
+              '/shop/product4.png',
+              '/shop/product5.png',
+              '/shop/product6.png',
+              '/shop/product7.png',
+              '/shop/product8.png',
+              '/shop/product9.png',
+              '/shop/product10.png',
+            ].map((imgPath, i) => (
+              <div key={i} className="group relative">
+                <div className="relative space-y-2">
+                  {/* Card Container with Shadow and Hover Effects */}
+                  <div className="bg-gray-900 rounded-xl overflow-hidden shadow-lg transform transition-all duration-300 hover:scale-105 hover:shadow-2xl">
+                    {/* Image Container */}
+                    <div className="aspect-square relative">
+                      <Link href={user ? "/editor" : "/pricing"}>
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent z-10"></div>
+                        <Image
+                          src={imgPath}
+                          alt={`Product ${i + 1}`}
+                          width={400}
+                          height={400}
+                          className="w-full h-full object-cover"
+                        />
+                        {/* Hover Overlay */}
+                        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center z-20">
+                          <span className="text-white text-sm font-medium px-4 py-2 rounded-full bg-[#00C4CC]/90 transform -translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                            View Design
+                          </span>
+                        </div>
+                      </Link>
+                    </div>
+                    
+                    {/* Product Info with Gradient Background */}
+                    <div className="p-4 bg-gradient-to-b from-gray-900 to-black">
+                      <h3 className="text-white text-sm md:text-base font-medium truncate">
+                        Product Name
+                      </h3>
+                      <p className="text-gray-400 text-xs md:text-sm mt-1">by Artist Name</p>
+                      <div className="flex justify-between items-center mt-2">
+                        <p className="text-white text-sm md:text-base font-bold">$99</p>
+                        <button className="text-[#00C4CC] hover:text-white transition-colors duration-200">
+                          <Heart className="h-4 w-4 md:h-5 md:w-5" />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <h3 className="text-white text-xs md:text-sm font-medium">Product Name</h3>
-                <p className="text-xs text-gray-400">by Artist Name</p>
-                <p className="text-white text-sm md:text-base font-bold">$99</p>
               </div>
             ))}
           </div>
@@ -542,26 +579,58 @@ export default function Home() {
       <section className="bg-black py-6 md:py-10">
         <div className="container mx-auto px-4">
           <span className="text-gray-400 text-sm md:text-base">Step into the Worlds of our Art Genesists</span>
-          <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-white mb-4 md:mb-8 lg:mb-12">Meet the Masters: Inside Art Geneissance</h2>
+          <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-white mb-4 md:mb-8 lg:mb-12">
+            Meet the Masters: Inside Art Geneissance
+          </h2>
           <div className="flex flex-wrap justify-between gap-4">
-            {Array.from({ length: 4 }).map((_, i) => (
-              <div key={i} className="flex flex-col w-full sm:w-[calc(25%-1rem)] h-[400px]">
-                <div className="h-[300px] bg-white rounded-lg overflow-hidden">
-                  <Link href={`/article/${i + 1}`}>
-                    <Image
-                      src="https://i.ibb.co/cQY353Y/pexels-photo-2379004.jpg"
-                      alt={`Article ${i + 1}`}
-                      width={400}
-                      height={400}
-                      className="w-full h-full object-cover"
-                    />
-                  </Link>
+            {[
+              { id: 1, image: "https://i.ibb.co/cQY353Y/pexels-photo-2379004.jpg", title: "The Journey of AI Art", artist: "Alexa Chen" },
+              { id: 2, image: "https://i.ibb.co/cQY353Y/pexels-photo-2379004.jpg", title: "Exploring Digital Creativity", artist: "Marcus Rivera" },
+              { id: 3, image: "https://i.ibb.co/cQY353Y/pexels-photo-2379004.jpg", title: "Future of Design", artist: "Sarah Johnson" },
+              { id: 4, image: "https://i.ibb.co/cQY353Y/pexels-photo-2379004.jpg", title: "AI in Modern Art", artist: "David Kim" },
+            ].map((article) => (
+              <div 
+                key={article.id} 
+                className="flex flex-col w-full sm:w-[calc(25%-1rem)] h-[400px] cursor-pointer group"
+                onClick={() => {
+                  setSelectedArticle(article.id);
+                  setShowInterview(true);
+                }}
+              >
+                <div className="h-[300px] bg-white rounded-lg overflow-hidden relative">
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center z-10">
+                    <span className="text-white text-sm font-medium px-4 py-2 rounded-full bg-[#00C4CC]/90 transform -translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                      Read Interview
+                    </span>
+                  </div>
+                  <Image
+                    src={article.image}
+                    alt={article.title}
+                    width={400}
+                    height={400}
+                    className="w-full h-full object-cover transform transition-transform duration-300 group-hover:scale-105"
+                  />
                 </div>
-                <h3 className="mt-2 md:mt-4 text-white text-base md:text-lg font-medium">Article title</h3>
-                <p className="text-gray-400 text-sm md:text-base">Meet 'Art Genesist Name'</p>
+                <h3 className="mt-2 md:mt-4 text-white text-base md:text-lg font-medium">{article.title}</h3>
+                <p className="text-gray-400 text-sm md:text-base">Meet '{article.artist}'</p>
               </div>
             ))}
           </div>
+
+          {/* Interview Modal */}
+          {showInterview && (
+            <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4">
+              <div className="bg-white rounded-xl w-full max-w-4xl max-h-[90vh] overflow-y-auto relative">
+                <button 
+                  onClick={() => setShowInterview(false)}
+                  className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 z-10"
+                >
+                  <X className="h-6 w-6" />
+                </button>
+                <ArtGenesistInterview />
+              </div>
+            </div>
+          )}
         </div>
       </section>
 
@@ -618,8 +687,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      <ArtGenesistInterview />
     </div>
   )
 }
