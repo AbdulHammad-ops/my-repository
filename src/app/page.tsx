@@ -269,24 +269,24 @@ export default function Home() {
           {slides.map((slide, index) => (
             <div
               key={index}
-              className={`absolute inset-0 w-full h-full transition-opacity duration-1000 ${
-                index === currentSlide ? 'opacity-100' : 'opacity-0'
+              className={`absolute inset-0 w-full h-full transition-all duration-700 ease-in-out ${
+                index === currentSlide ? 'opacity-100 z-[1]' : 'opacity-0 z-0'
               }`}
             >
-              <div className="absolute inset-0 bg-gradient-to-r from-black/50 to-transparent z-10" />
+              <div className="absolute inset-0 bg-gradient-to-r from-black/50 to-transparent z-[2]" />
               <Image
                 src="/home.jpg"
                 alt={`Slide ${index + 1}`}
                 layout="fill"
                 objectFit="cover"
                 quality={100}
-                priority
+                priority={index === currentSlide}
                 className="object-right-top brightness-90"
               />
             </div>
           ))}
         </div>
-        <div className="relative container mx-auto px-4 md:px-8 h-full flex items-center z-20">
+        <div className="relative container mx-auto px-4 md:px-8 h-full flex items-center z-[15]">
           <div className="max-w-lg space-y-6 ml-4 md:ml-8">
             <span className="inline-block rounded-full bg-white/90 px-4 py-1.5 text-sm font-medium text-gray-900">
               FOMO Alert!
@@ -299,7 +299,7 @@ export default function Home() {
                 {slides[currentSlide].description}
               </p>
             </div>
-            <div className="relative z-30">
+            <div className="relative z-[20]">
               <button className="bg-[#00C4CC] text-white font-bold py-2.5 px-6 rounded-full text-base hover:bg-[#00B3BB] transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105">
                 <Link href="/how-it-works" className="block">
                   {slides[currentSlide].cta}
@@ -310,7 +310,7 @@ export default function Home() {
         </div>
         
         {/* Navigation Buttons */}
-        <div className="absolute inset-x-0 top-1/2 transform -translate-y-1/2 flex justify-between px-4 z-30">
+        <div className="absolute inset-x-0 top-1/2 transform -translate-y-1/2 flex justify-between px-4 z-[20]">
           <button
             className="bg-black/50 p-2.5 rounded-full text-white hover:bg-black/70 transition-colors"
             onClick={() => setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length)}
