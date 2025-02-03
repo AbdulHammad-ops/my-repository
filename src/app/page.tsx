@@ -236,7 +236,7 @@ export default function Home() {
       )}
 
       {/* Hero Section */}
-      <section className="relative h-[300px] md:h-[500px] bg-gray-900 overflow-hidden ">
+      <section className="relative h-[90vh] bg-gray-900 overflow-hidden">
         {megaMenuOpen && (
           <div className="absolute left-0 right-0 top-[64px] bg-white shadow-lg z-40 border-t py-5">
             <div className="container mx-auto py-8">
@@ -269,46 +269,61 @@ export default function Home() {
           {slides.map((slide, index) => (
             <div
               key={index}
-              className={`absolute inset-0 w-full h-full transition-opacity duration-1000 ${index === currentSlide ? 'opacity-100' : 'opacity-0'
-                }`}
+              className={`absolute inset-0 w-full h-full transition-opacity duration-1000 ${
+                index === currentSlide ? 'opacity-100' : 'opacity-0'
+              }`}
             >
+              <div className="absolute inset-0 bg-gradient-to-r from-black/50 to-transparent z-10" />
               <Image
-                src={`https://i.ibb.co/SwV7BKN/Home-Hero-banner-image.jpg=Slide${index + 1}`}
+                src="/home.jpg"
                 alt={`Slide ${index + 1}`}
                 layout="fill"
-                objectFit="fill"
+                objectFit="cover"
+                quality={100}
+                priority
+                className="object-right-top brightness-90"
               />
             </div>
           ))}
         </div>
-        <div className="container relative mx-auto px-4 py-8 md:py-12 h-full flex items-center">
-          <div className="max-w-xl space-y-2 md:space-y-4 text-white">
-            <span className="inline-block rounded-full bg-white px-3 py-1 text-xs md:text-sm text-gray-900">
+        <div className="relative container mx-auto px-4 md:px-8 h-full flex items-center z-20">
+          <div className="max-w-lg space-y-6 ml-4 md:ml-8">
+            <span className="inline-block rounded-full bg-white/90 px-4 py-1.5 text-sm font-medium text-gray-900">
               FOMO Alert!
             </span>
-            <h2 className="text-xl md:text-2xl lg:text-4xl font-bold">
-              {slides[currentSlide].title}
-            </h2>
-            <p className="text-gray-100 text-xs md:text-sm lg:text-base">
-              {slides[currentSlide].description}
-            </p>
-            <button className="bg-white text-[#00C4CC] font-bold py-1 px-3 md:py-2 md:px-4 rounded-full text-xs md:text-sm lg:text-base hover:bg-gray-100 transition-colors">
-              <Link href="/how-it-works">{slides[currentSlide].cta}</Link>
-            </button>
+            <div className="space-y-4">
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white drop-shadow-lg leading-tight">
+                {slides[currentSlide].title}
+              </h2>
+              <p className="text-base md:text-lg text-white/90 drop-shadow-md max-w-md">
+                {slides[currentSlide].description}
+              </p>
+            </div>
+            <div className="relative z-30">
+              <button className="bg-[#00C4CC] text-white font-bold py-2.5 px-6 rounded-full text-base hover:bg-[#00B3BB] transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105">
+                <Link href="/how-it-works" className="block">
+                  {slides[currentSlide].cta}
+                </Link>
+              </button>
+            </div>
           </div>
         </div>
-        <button
-          className="absolute left-2 md:left-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 p-1 md:p-2 rounded-full text-white"
-          onClick={() => setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length)}
-        >
-          <ChevronLeft className="h-4 w-4 md:h-6 md:w-6" />
-        </button>
-        <button
-          className="absolute right-2 md:right-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 p-1 md:p-2 rounded-full text-white"
-          onClick={() => setCurrentSlide((prev) => (prev + 1) % slides.length)}
-        >
-          <ChevronRight className="h-4 w-4 md:h-6 md:w-6" />
-        </button>
+        
+        {/* Navigation Buttons */}
+        <div className="absolute inset-x-0 top-1/2 transform -translate-y-1/2 flex justify-between px-4 z-30">
+          <button
+            className="bg-black/50 p-2.5 rounded-full text-white hover:bg-black/70 transition-colors"
+            onClick={() => setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length)}
+          >
+            <ChevronLeft className="h-5 w-5" />
+          </button>
+          <button
+            className="bg-black/50 p-2.5 rounded-full text-white hover:bg-black/70 transition-colors"
+            onClick={() => setCurrentSlide((prev) => (prev + 1) % slides.length)}
+          >
+            <ChevronRight className="h-5 w-5" />
+          </button>
+        </div>
       </section>
 
       {/* Categories */}
